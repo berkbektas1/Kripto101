@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Kripto 101</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="email">Email</string>
+    <string name="sign_in_to_your_account">Sign in to your account</string>
+    <string name="sign_up">Sign Up</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="kripto_101">Kripto 101</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="welcome">Welcome</string>
+    <string name="create_your_account">Create your account</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="enter_your_email_address_to_reset_your_password">Enter your email address to reset your password.</string>
+    <string name="reset">Reset</string>
+</resources>

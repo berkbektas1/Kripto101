@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".Activities.ForgotActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/button_closed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="42dp"
+            android:onClick="closeActivity"
+            android:src="@drawable/button_close"
+            android:contentDescription="@string/app_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintTop_toBottomOf="@id/container1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/app_name"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+             />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.45"
+        app:layout_constraintTop_toBottomOf="@id/container2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/textForgot"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/forgot_password"
+            android:textColor="@color/colorWhite"
+            android:textStyle="normal"
+            android:textSize="32sp"
+            android:layout_marginLeft="42dp"
+            android:layout_marginRight="42dp"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/textForgot2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/enter_your_email_address_to_reset_your_password"
+            android:textColor="@color/colorWhite"
+            android:textStyle="italic"
+            android:textSize="19sp"
+            android:layout_marginLeft="42dp"
+            android:layout_marginRight="42dp"
+            android:layout_marginBottom="21dp"
+            app:layout_constraintTop_toBottomOf="@id/textForgot"/>
+        <EditText
+            android:id="@+id/inputEmail"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/background_for_input"
+            android:hint="@string/email"
+            android:textColorHint="@color/colorWhite"
+            android:textColor="@color/white"
+            android:layout_marginLeft="42dp"
+            android:layout_marginRight="42dp"
+            android:layout_marginTop="23dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            app:layout_constraintTop_toBottomOf="@id/textForgot2"/>
+
+        <Button
+            android:id="@+id/buttonSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginStart="42dp"
+            android:layout_marginEnd="42dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="23dp"
+            android:background="@drawable/background_for_sign_in_button"
+            android:text="@string/reset"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/inputEmail"
+            app:layout_constraintStart_toStartOf="@id/inputEmail"
+            app:layout_constraintEnd_toEndOf="@id/inputEmail"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
