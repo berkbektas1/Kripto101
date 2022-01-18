@@ -69,8 +69,6 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
                 @Override
                 public void onClick(View view) {
 
-                    System.out.println(sliderItem.getLink());
-                    /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sliderItem.getLink()));*/
                     clickedListener.onPictureClicked(getAdapterPosition());
 
 

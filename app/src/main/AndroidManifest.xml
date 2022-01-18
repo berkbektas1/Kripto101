@@ -11,7 +11,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.ForgotActivity"/>
+        <activity android:name=".Activities.EducationActivity"></activity>
+        <activity android:name=".Activities.ForgotActivity" />
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.RegisterActivity" />

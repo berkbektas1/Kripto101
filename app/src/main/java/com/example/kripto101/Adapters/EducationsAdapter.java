@@ -1,30 +1,41 @@
 package com.example.kripto101.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kripto101.Activities.EducationActivity;
+import com.example.kripto101.Activities.MainActivity;
+import com.example.kripto101.ClickedListener;
 import com.example.kripto101.Models.EducationsModel;
+import com.example.kripto101.Models.WordsModel;
 import com.example.kripto101.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.ViewHolder> {
 
     private Context mcontext;
     private ArrayList<EducationsModel> mEducationList;
     int sayi=-1;
+    private ClickedListener clickedListener;
 
-    public EducationsAdapter(Context mcontext, ArrayList<EducationsModel> mEducationList) {
+    public EducationsAdapter(Context mcontext, ArrayList<EducationsModel> mEducationList, ClickedListener clickedListener) {
         this.mcontext = mcontext;
         this.mEducationList = mEducationList;
+        this.clickedListener = clickedListener;
     }
 
     @NonNull
@@ -63,8 +74,23 @@ public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.Vi
             containerCard = itemView.findViewById(R.id.containerCustomCard);
 
 
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(), "Clicked = "+ textTitle.getText().toString(), Toast.LENGTH_SHORT).show();
+                    clickedListener.onEducationClicked(getAdapterPosition());
+
+
+                }
+            });
         }
+
     }
+
+
+
+    
 
     public int getColor(){
 
@@ -82,5 +108,6 @@ public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.Vi
 
         return colors[sayi];
     }
+
 
 }

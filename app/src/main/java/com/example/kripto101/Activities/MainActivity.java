@@ -1,37 +1,37 @@
 package com.example.kripto101.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
-import androidx.viewpager2.widget.ViewPager2;
+        import androidx.annotation.NonNull;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.core.content.ContextCompat;
+        import androidx.recyclerview.widget.GridLayoutManager;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
+        import androidx.viewpager2.widget.CompositePageTransformer;
+        import androidx.viewpager2.widget.MarginPageTransformer;
+        import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.text.Html;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.content.Intent;
+        import android.net.Uri;
+        import android.os.Bundle;
+        import android.os.Handler;
+        import android.text.Html;
+        import android.view.View;
+        import android.view.Window;
+        import android.view.WindowManager;
+        import android.widget.ImageView;
+        import android.widget.LinearLayout;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.example.kripto101.Adapters.EducationsAdapter;
-import com.example.kripto101.ClickedListener;
-import com.example.kripto101.Models.EducationsModel;
-import com.example.kripto101.R;
-import com.example.kripto101.Adapters.SliderAdapter;
-import com.example.kripto101.Models.SliderItem;
+        import com.example.kripto101.Adapters.EducationsAdapter;
+        import com.example.kripto101.ClickedListener;
+        import com.example.kripto101.Models.EducationsModel;
+        import com.example.kripto101.R;
+        import com.example.kripto101.Adapters.SliderAdapter;
+        import com.example.kripto101.Models.SliderItem;
 
-import java.util.ArrayList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ClickedListener {
 
@@ -130,15 +130,15 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
 
         // tanımlama
         mEducationList = new ArrayList<>();
-        mEducationList.add(new EducationsModel("Temel Kelimeler","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
+        mEducationList.add(new EducationsModel("Temel Kelimeler1","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
+        mEducationList.add(new EducationsModel("Temel Kelimeler2","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
+        mEducationList.add(new EducationsModel("Temel Kelimeler3","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
+        mEducationList.add(new EducationsModel("Temel Kelimeler4","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
+        mEducationList.add(new EducationsModel("Temel Kelimeler5","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
+        mEducationList.add(new EducationsModel("Temel Kelimeler6","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
+        mEducationList.add(new EducationsModel("Temel Kelimeler7","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
 
-        mEducationAdapter = new EducationsAdapter(MainActivity.this,mEducationList);
+        mEducationAdapter = new EducationsAdapter(MainActivity.this,mEducationList, this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),1,GridLayoutManager.VERTICAL,false);
 
         mRecyclerView.setLayoutManager(gridLayoutManager);
@@ -202,5 +202,13 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         startActivity(intent);
 
          */
+    }
+
+    @Override
+    public void onEducationClicked(int position) {
+        Intent intent = new Intent(MainActivity.this, EducationActivity.class);
+        startActivity(intent);
+        //onPause();
+        //put title bu title ile ilgili bilgiler yeni activity de açılmalı
     }
 }
