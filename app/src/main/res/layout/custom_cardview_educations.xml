@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:foreground="?attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/colorAccent"
+        android:background="@color/colorWhite"
         android:padding="5dp">
         <ImageView
             android:id="@+id/imageEducations"
@@ -41,6 +42,7 @@
                 android:id="@+id/textDescriptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="2"
                 android:text="Deneme yazısı"
                 android:textStyle="bold"
                 android:textSize="12sp"

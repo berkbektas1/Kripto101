@@ -4,27 +4,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.kripto101.R;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    private TextView textTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        textTitle = findViewById(R.id.textTitle);
+        textTitle.setText("PROFILE");
 
-
-        //APP Status Bar Color
-        Window w = getWindow();
-        w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-        w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        w.setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.colorAppBarFirst));
 
 
     }
+
+    public void getBackButton(View view){
+        onBackPressed();
+        finish();
+    }
+
 }

@@ -10,11 +10,6 @@
     <color name="colorTextHint">#ECECEC</color>
     <color name="sign_up_btn">#CBFF0033</color>
     <color name="colorGry">#3E3D3D</color>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="underline">#D8D6D6</color>
@@ -23,12 +18,16 @@
     <color name="colorRed">#F12929</color>
     <color name="colorGreen">#58F623</color>
     <color name="colorOrange">#FF9800</color>
+    <color name="colorYellow">#FFFAAF</color>
 
-    <color name="colorEducations1">#FFB3B3</color>
-    <color name="colorEducations2">#F2FFB3</color>
-    <color name="colorEducations3">#A2FDA8</color>
-    <color name="colorEducations4">#B3F5FF</color>
-    <color name="colorEducations5">#F7B3FF</color>
+    <color name="colorSwipe1">#ED346B</color>
+    <color name="colorSwipe2">#68ED346B</color>
+    <color name="colorEducations0">#ED346B</color>
+    <color name="colorEducations1">#2BB7BA</color>
+    <color name="colorEducations2">#EBA173</color>
+    <color name="colorEducations3">#FCDA6B</color>
+    <color name="colorEducations4">#FC6B6B</color>
+    <color name="colorEducations5">#348AED</color>
 
     <color name="colorProfile1">#FFF1F1</color>
     <color name="colorProfile2">#F86C6C</color>

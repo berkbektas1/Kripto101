@@ -1,16 +1,20 @@
 package com.example.kripto101.Adapters;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kripto101.ClickedListener;
+import com.example.kripto101.EducationOnClickedListener;
 import com.example.kripto101.Models.WordsModel;
 import com.example.kripto101.R;
 
@@ -21,11 +25,13 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
     private Context mcontext;
     private ArrayList<WordsModel> mWordsModelList;
     private ArrayList<WordsModel> getWordsListFilter; // search for
+    private EducationOnClickedListener clickedListener;
 
-    public WordsAdapter(Context mcontext, ArrayList<WordsModel> mWordsModelList) {
+    public WordsAdapter(Context mcontext, ArrayList<WordsModel> mWordsModelList, EducationOnClickedListener clickedListener) {
         this.mcontext = mcontext;
         this.mWordsModelList = mWordsModelList;
         this.getWordsListFilter = mWordsModelList; // search
+        this.clickedListener = clickedListener;
     }
 
     @NonNull
@@ -40,9 +46,12 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
         WordsModel currentItem = mWordsModelList.get(position);
 
         String words = currentItem.getWord();
-        String levels = currentItem.getLevel();
+        String description = currentItem.getDescription();
+        int imageWord = currentItem.getImageWords();
 
         holder.textWords.setText(words);
+        holder.textDescription.setText(description);
+        holder.imageWord.setImageResource(imageWord);
 
     }
 
@@ -87,19 +96,23 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textWords;
+        TextView textWords,textDescription;
+        ImageView imageWord;
 
 
-        public ViewHolder(@NonNull View itemView) {
+
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
 
             textWords = itemView.findViewById(R.id.textWords);
+            textDescription = itemView.findViewById(R.id.textDescriptions);
+            imageWord = itemView.findViewById(R.id.imageWord);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(view.getContext(), "Clicked = "+ textWords.getText().toString(), Toast.LENGTH_SHORT).show();
-
+                    clickedListener.onEduWordsListener(getAdapterPosition());
                 }
             });
         }

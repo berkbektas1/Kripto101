@@ -15,21 +15,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kripto101.Activities.EducationActivity;
-import com.example.kripto101.Activities.MainActivity;
 import com.example.kripto101.ClickedListener;
 import com.example.kripto101.Models.EducationsModel;
-import com.example.kripto101.Models.WordsModel;
 import com.example.kripto101.R;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.ViewHolder> {
 
     private Context mcontext;
     private ArrayList<EducationsModel> mEducationList;
-    int sayi=-1;
     private ClickedListener clickedListener;
 
     public EducationsAdapter(Context mcontext, ArrayList<EducationsModel> mEducationList, ClickedListener clickedListener) {
@@ -52,7 +47,8 @@ public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.Vi
         holder.textDescription.setText(currentItem.getDescription());
         holder.imageEducation.setImageResource(currentItem.getImageEdu());
 
-        holder.containerCard.setBackgroundResource(getColor());
+        getColor(holder,position);
+
     }
 
     @Override
@@ -89,24 +85,22 @@ public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.Vi
     }
 
 
-
-    
-
-    public int getColor(){
-
-        int[] colors =new int[5];
-        colors[0] = R.color.colorEducations1;
-        colors[1] = R.color.colorEducations2;
-        colors[2] = R.color.colorEducations3;
-        colors[3] = R.color.colorEducations4;
-        colors[4] = R.color.colorEducations5;
-
-        sayi++;
-        if (sayi ==5){
-            sayi = 0;
+    public void getColor(ViewHolder holder, int position){
+        System.out.println(position);
+        if (position % 6 == 0) {
+            holder.containerCard.setBackgroundResource(R.color.colorEducations0);
+        } else if (position % 6 == 1) {
+            holder.containerCard.setBackgroundResource(R.color.colorEducations1);
+        } else if (position % 6 == 2) {
+            holder.containerCard.setBackgroundResource(R.color.colorEducations2);
+        } else if (position % 6 == 3) {
+            holder.containerCard.setBackgroundResource(R.color.colorEducations3);
+        } else if (position % 6 == 4) {
+            holder.containerCard.setBackgroundResource(R.color.colorEducations4);
+        } else if (position % 6 == 5) {
+            holder.containerCard.setBackgroundResource(R.color.colorEducations5);
         }
 
-        return colors[sayi];
     }
 
 

@@ -1,40 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:foreground="?attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp">
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/containerCustomCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/colorAccent"
         android:padding="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageWord"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:src="@drawable/profile_pic"/>
 
         <LinearLayout
             android:id="@+id/textEducation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="8dp">
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="4dp">
             <TextView
                 android:id="@+id/textWords"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Temel Kelimeler"
+                android:maxLines="1"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:textColor="@color/black"
-                android:paddingStart="8dp"/>
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/textDescriptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/white"
+                />
+
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorGry"/>
 
 
-</androidx.cardview.widget.CardView>
+</LinearLayout>
