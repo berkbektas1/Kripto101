@@ -33,52 +33,23 @@
             app:layout_constraintWidth_percent="0.25" />
 
         <TextView
-            android:id="@+id/textTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:textSize="25sp"
-            android:textStyle="bold"
+            android:textSize="28sp"
+            android:fontFamily="@font/segoe_ui_bold"
+            android:text="@string/account_info"
             app:layout_constraintBottom_toBottomOf="@id/container1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonBack"
             app:layout_constraintTop_toTopOf="@id/container1"
             app:layout_constraintWidth_percent="0.75" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/colorWhite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container1">
-
-        <TextView
-            android:id="@+id/textUserName"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:text="Your Name"
-            android:textColor="@color/colorBlack"
-            android:textSize="29sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textEmail"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="2dp"
-            android:gravity="center"
-            android:text="berkbektas98@gmail.com"
-            android:textColor="@color/colorBlack"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/textUserName" />
+            android:layout_height="2dp"
+            android:background="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -90,9 +61,9 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintHeight_percent="0.9"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/container2">
+        app:layout_constraintTop_toBottomOf="@+id/container1">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -102,27 +73,10 @@
                 android:id="@+id/container4"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/container2">
-
-                <TextView
-                    android:id="@+id/textInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="46dp"
-                    android:layout_marginTop="20dp"
-                    android:gravity="start"
-                    android:text="Account Info"
-                    android:textColor="@color/colorProfile1"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/container4" />
-
 
                 <ImageView
                     android:id="@+id/imageUserNameIc"
@@ -134,7 +88,7 @@
                     android:src="@drawable/profile_icons"
                     app:layout_constraintHeight_percent="0.1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textInfo" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/imageUserEmailIc"
@@ -144,6 +98,7 @@
                     android:layout_marginTop="30dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/profile_icons"
+                    app:layout_constraintHeight_percent="0.1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imageUserNameIc" />
 
@@ -155,19 +110,23 @@
                     android:layout_marginTop="30dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/profile_icons"
+                    app:layout_constraintHeight_percent="0.1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imageUserEmailIc" />
 
                 <ImageView
-                    android:id="@+id/imageUserLevel"
+                    android:id="@+id/imageRosette"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginStart="46dp"
                     android:layout_marginTop="30dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/profile_icons"
+                    app:layout_constraintHeight_percent="0.1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imageUserDate" />
+
+
 
                 <TextView
                     android:id="@+id/name"
@@ -175,10 +134,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="21dp"
                     android:gravity="start"
-                    android:text="Name"
+                    android:text="@string/name"
                     android:textColor="@color/colorProfile2"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/segoe_ui_bold"
                     app:layout_constraintStart_toEndOf="@id/imageUserNameIc"
                     app:layout_constraintTop_toTopOf="@id/imageUserNameIc" />
 
@@ -188,10 +147,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="21dp"
                     android:gravity="start"
-                    android:text="Email"
+                    android:text="@string/email"
                     android:textColor="@color/colorProfile2"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/segoe_ui_bold"
                     app:layout_constraintStart_toEndOf="@id/imageUserEmailIc"
                     app:layout_constraintTop_toTopOf="@id/imageUserEmailIc" />
 
@@ -201,10 +160,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="21dp"
                     android:gravity="start"
-                    android:text="Registration Date"
+                    android:text="@string/registration_date"
                     android:textColor="@color/colorProfile2"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/segoe_ui_bold"
                     app:layout_constraintStart_toEndOf="@id/imageUserDate"
                     app:layout_constraintTop_toTopOf="@id/imageUserDate" />
 
@@ -214,49 +173,50 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="21dp"
                     android:gravity="start"
-                    android:text="Account Level"
+                    android:text="@string/account_level"
                     android:textColor="@color/colorProfile2"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/imageUserLevel"
-                    app:layout_constraintTop_toTopOf="@id/imageUserLevel" />
+                    android:fontFamily="@font/segoe_ui_bold"
+                    app:layout_constraintStart_toEndOf="@id/imageRosette"
+                    app:layout_constraintTop_toTopOf="@id/imageRosette" />
+
 
                 <TextView
+                    android:id="@+id/textName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="21dp"
                     android:layout_marginTop="5dp"
                     android:gravity="start"
-                    android:text="Berk Bektaş"
-                    android:textColor="@color/colorProfile1"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/segoe_ui_bold"
                     app:layout_constraintStart_toEndOf="@id/imageUserNameIc"
                     app:layout_constraintTop_toBottomOf="@id/name" />
 
                 <TextView
+                    android:id="@+id/textEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="21dp"
                     android:layout_marginTop="5dp"
                     android:gravity="start"
-                    android:text="berkbektas98@gmail.com"
-                    android:textColor="@color/colorProfile1"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/segoe_ui_bold"
                     app:layout_constraintStart_toEndOf="@id/imageUserEmailIc"
                     app:layout_constraintTop_toBottomOf="@id/email" />
 
                 <TextView
+                    android:id="@+id/textRegistrationDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="21dp"
                     android:layout_marginTop="5dp"
                     android:gravity="start"
-                    android:text="22.11.2021"
-                    android:textColor="@color/colorProfile1"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/segoe_ui_bold"
                     app:layout_constraintStart_toEndOf="@id/imageUserDate"
                     app:layout_constraintTop_toBottomOf="@id/registrationDate" />
 
@@ -267,12 +227,13 @@
                     android:layout_marginStart="21dp"
                     android:layout_marginTop="5dp"
                     android:gravity="start"
-                    android:text="Base"
-                    android:textColor="@color/colorProfile1"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/imageUserLevel"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/segoe_ui_bold"
+                    app:layout_constraintStart_toEndOf="@id/imageRosette"
                     app:layout_constraintTop_toBottomOf="@id/accountLevel" />
+
+
 
                 <LinearLayout
                     android:id="@+id/container"
@@ -283,7 +244,7 @@
                     android:gravity="center"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textLevel">
+                    app:layout_constraintTop_toBottomOf="@id/imageRosette">
 
                     <Button
                         android:id="@+id/btnDiscord"
@@ -313,8 +274,8 @@
                     android:background="@drawable/btn_exit"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="30dp"
-                    android:text="ÇIKIŞ"
-                    android:textColor="@color/colorProfile1"
+                    android:text="@string/cikis"
+                    android:textColor="@color/colorWhite"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp">
+    android:layout_margin="4dp"
+    app:cardCornerRadius="6dp">
 
     <LinearLayout
         android:id="@+id/containerCustomCard"
@@ -21,6 +21,7 @@
             android:layout_height="50dp"
             android:layout_margin="12dp"
             android:layout_gravity="center"
+            android:contentDescription="@string/app_name"
             android:src="@mipmap/ic_launcher"/>
         <LinearLayout
             android:id="@+id/textEducation"
@@ -34,7 +35,6 @@
                 android:id="@+id/textCategories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Temel Kelimeler"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@color/black" />
@@ -43,7 +43,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
-                android:text="Deneme yazısı"
                 android:textStyle="bold"
                 android:textSize="12sp"
                 android:textColor="@color/black"

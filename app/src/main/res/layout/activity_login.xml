@@ -18,8 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-
-
         <ImageView
             android:id="@+id/loginHeaderLogo"
             android:layout_width="0dp"
@@ -136,8 +134,8 @@
             android:onClick="getForget"
             android:text="@string/forgot_your_password"
             android:textColor="@color/white"
-
             android:textSize="19sp"
+            android:fontFamily="@font/segoe_ui"
             app:layout_constraintStart_toStartOf="@id/buttonSignIn"
             app:layout_constraintTop_toBottomOf="@+id/buttonSignIn"
             app:layout_constraintWidth_percent="0.7" />
@@ -149,10 +147,10 @@
             android:gravity="center"
             android:text="@string/sign_up"
             android:textColor="@color/sign_up_btn"
-
             android:textSize="28sp"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/segoe_ui_bold"
             app:layout_constraintBottom_toBottomOf="@id/textForgot"
             app:layout_constraintEnd_toEndOf="@id/buttonSignIn"
             app:layout_constraintTop_toBottomOf="@+id/buttonSignIn"

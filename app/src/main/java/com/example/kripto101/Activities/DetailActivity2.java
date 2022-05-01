@@ -2,9 +2,11 @@ package com.example.kripto101.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kripto101.R;
@@ -15,7 +17,8 @@ import java.util.prefs.PreferenceChangeEvent;
 
 public class DetailActivity2 extends AppCompatActivity {
 
-    private TextView textEduTitle, textArticle;
+    private TextView textEduName, textSubName, textAuthor, textConcept;
+    private ImageView imageConcept, ic_mark;
 
     private PreferenceManager preferenceManager;
 
@@ -25,24 +28,19 @@ public class DetailActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_detail2);
 
         preferenceManager = new PreferenceManager(getApplicationContext());
-        textEduTitle = findViewById(R.id.textEduName);
-        textArticle = findViewById(R.id.textArticle);
 
-        textEduTitle.setText(preferenceManager.getString(Constants.KEY_EDU_NAME));
-        textArticle.setText(Html.fromHtml("<b>Lorem</b> Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. www.berkbektas.com " +
-                "<br> <b>Lorem</b> Ipsum is simply dummy text of the printing and typesetting industry. " +
-                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer " +
-                "took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, " +
-                "but also the leap into electronic typesetting, remaining essentially unchanged. " + "but also the leap into electronic typesetting, remaining essentially unchanged."+
-                "but also the leap into electronic typesetting, remaining essentially unchanged."+
-                "but also the leap into electronic typesetting, remaining essentially unchanged."+
-                "but also the leap into electronic typesetting, remaining essentially unchanged."+
-                "but also the leap into electronic typesetting, remaining essentially unchanged."+
-                "but also the leap into electronic typesetting, remaining essentially unchanged."+
-                "but also the leap into electronic typesetting, remaining essentially unchanged."+
-                "but also the leap into electronic typesetting, remaining essentially unchanged."+
-                "but also the leap into electronic typesetting, remaining essentially unchanged."+
-                "but also the leap into electronic typesetting, remaining essentially unchanged."));
+        textEduName = findViewById(R.id.textEduName);
+        textSubName = findViewById(R.id.textSubName);
+        textConcept = findViewById(R.id.textConcept);
+        textAuthor = findViewById(R.id.textAuthor);
+        imageConcept = findViewById(R.id.imageConcept);
+        ic_mark = findViewById(R.id.ic_mark);
+
+        textEduName.setText("Price Action");
+        textSubName.setText("Range Trades");
+        textAuthor.setText("Author: @berkbektas");
+
+        ic_mark.setColorFilter(getColor(R.color.colorEducations1));
 
     }
 

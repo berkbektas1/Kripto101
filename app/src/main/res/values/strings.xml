@@ -1,8 +1,7 @@
 <resources>
-    <string name="app_name">Kripto 101</string>
-    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="app_name">Price Action\nWar</string>
+    <string name="forgot_your_password"><u>Forgot your password?</u></string>
     <string name="sign_in">Sign In</string>
-    <string name="email">Email</string>
     <string name="sign_in_to_your_account">Sign in to your account</string>
     <string name="sign_up">Sign Up</string>
 
@@ -11,10 +10,25 @@
     <string name="kripto_101">Kripto 101</string>
     <string name="welcome_back">Welcome Back</string>
     <string name="password">Password</string>
-    <string name="username">Username</string>
     <string name="welcome">Welcome</string>
     <string name="create_your_account">Create your account</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="enter_your_email_address_to_reset_your_password">Enter your email address to reset your password.</string>
     <string name="reset">Reset</string>
+    <string name="account_info">Account Info</string>
+    <string name="base">null</string>
+    <string name="loremIpsum">\t \t Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n\nIt has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+    \t \t Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n\nIt has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+    \t \t Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n\nIt has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+        \t \t Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>
+    <string name="hello">Hello,</string>
+    <string name="e_itimler">Eğitimler</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="registration_date">Registration Date</string>
+    <string name="account_level">Account Level</string>
+    <string name="cikis">ÇIKIŞ</string>
 </resources>

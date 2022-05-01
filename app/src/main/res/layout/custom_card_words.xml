@@ -4,23 +4,26 @@
     android:foreground="?attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorBackground"
+    android:padding="8dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="13dp"
+    android:background="@drawable/background_border"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/containerCustomCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="5dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/imageWord"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:src="@drawable/profile_pic"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"/>
 
         <LinearLayout
             android:id="@+id/textEducation"
@@ -42,9 +45,9 @@
                 android:id="@+id/textDescriptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:textStyle="bold"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="@color/white"
                 />
 
@@ -52,11 +55,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorGry"/>
 
 
 </LinearLayout>

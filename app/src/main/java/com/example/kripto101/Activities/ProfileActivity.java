@@ -11,16 +11,11 @@ import com.example.kripto101.R;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView textTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-        textTitle = findViewById(R.id.textTitle);
-        textTitle.setText("PROFILE");
-
 
 
     }

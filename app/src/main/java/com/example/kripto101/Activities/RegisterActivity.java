@@ -19,7 +19,6 @@ import com.example.kripto101.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    ImageView imageLogo;
     EditText inputUserName, inputEmail, inputPassword;
     TextView textSignIn;
     Animation topAnim;
@@ -30,17 +29,10 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
 
-
-        topAnim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
-
-        imageLogo = findViewById(R.id.logo);
-
         textSignIn = findViewById(R.id.textSignIn);
         inputUserName = findViewById(R.id.inputUserName);
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
-
-        imageLogo.setAnimation(topAnim);
 
 
 
@@ -52,10 +44,6 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
 
     }
 

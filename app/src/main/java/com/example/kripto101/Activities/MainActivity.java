@@ -2,8 +2,6 @@ package com.example.kripto101.Activities;
 
         import androidx.annotation.NonNull;
         import androidx.appcompat.app.AppCompatActivity;
-        import androidx.core.content.ContextCompat;
-        import androidx.recyclerview.widget.DefaultItemAnimator;
         import androidx.recyclerview.widget.GridLayoutManager;
         import androidx.recyclerview.widget.LinearLayoutManager;
         import androidx.recyclerview.widget.RecyclerView;
@@ -11,15 +9,17 @@ package com.example.kripto101.Activities;
         import androidx.viewpager2.widget.MarginPageTransformer;
         import androidx.viewpager2.widget.ViewPager2;
 
+        import android.app.Dialog;
+        import android.content.DialogInterface;
         import android.content.Intent;
+        import android.graphics.Color;
+        import android.graphics.drawable.ColorDrawable;
         import android.net.Uri;
         import android.os.Bundle;
         import android.os.Handler;
         import android.text.Html;
         import android.view.View;
         import android.view.Window;
-        import android.view.WindowManager;
-        import android.view.animation.Animation;
         import android.view.animation.AnimationUtils;
         import android.view.animation.LayoutAnimationController;
         import android.widget.ImageView;
@@ -27,10 +27,8 @@ package com.example.kripto101.Activities;
         import android.widget.TextView;
         import android.widget.Toast;
 
-        import com.example.kripto101.Adapters.CategoriesCardAdapter;
         import com.example.kripto101.Adapters.EducationsAdapter;
         import com.example.kripto101.ClickedListener;
-        import com.example.kripto101.Models.CategoriesCardModel;
         import com.example.kripto101.Models.EducationsModel;
         import com.example.kripto101.R;
         import com.example.kripto101.Adapters.SliderAdapter;
@@ -46,17 +44,11 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
     private ViewPager2 viewPager2;
     List<SliderItem> sliderItems;
     private Handler sliderHandler = new Handler();
+
     LinearLayout dotsLayout;
     TextView[] dots;
     private TextView textUserName,textTitles;
-    private ImageView imageUser;
-
-    //Recyclerview Education Categories Card
-    private RecyclerView recyclerViewCard;
-    private ArrayList<CategoriesCardModel> mcategoriesCardList;
-    private CategoriesCardAdapter categoriesCardAdapter;
-
-
+    private ImageView imageUser, imageAlert;
 
     //Recyclerview Education
     private RecyclerView mRecyclerView;
@@ -82,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         textUserName = findViewById(R.id.textUserName);
         textTitles = findViewById(R.id.textTitles);
         imageUser = findViewById(R.id.profile_image);
+        imageAlert = findViewById(R.id.imageAlert_i);
 
         imageUser.setImageResource(R.drawable.ic_settings_white);
         textUserName.setText("Berk Bektaş");
@@ -133,29 +126,6 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
             }
         });
 
-        //Recyclerview Categories Card
-        recyclerViewCard = findViewById(R.id.RVEducationCard);
-        mcategoriesCardList = new ArrayList<>();
-        mcategoriesCardList.add(new CategoriesCardModel(R.drawable.profile_pic,"Eğitimler"));
-        mcategoriesCardList.add(new CategoriesCardModel(R.drawable.profile_pic,"Pre-Sales"));
-        mcategoriesCardList.add(new CategoriesCardModel(R.drawable.profile_pic,"Airdrops"));
-        mcategoriesCardList.add(new CategoriesCardModel(R.drawable.profile_pic,"NFTs"));
-
-        //Design Horizontal
-        LinearLayoutManager layoutManager = new LinearLayoutManager(
-                MainActivity.this, LinearLayoutManager.HORIZONTAL, false
-        );
-        recyclerViewCard.setLayoutManager(layoutManager);
-        recyclerViewCard.setItemAnimator(new DefaultItemAnimator());
-
-        //Initialize CategoriesCardAdapter
-        categoriesCardAdapter = new CategoriesCardAdapter(MainActivity.this, mcategoriesCardList,this);
-        //Set CategoriesCardAdapter to Recyclerview
-        recyclerViewCard.setAdapter(categoriesCardAdapter);
-
-        //Titles
-        textTitles.setText(mcategoriesCardList.get(0).getEduCategoriesTitle());
-
 
         // Eğitimler
         mRecyclerView = findViewById(R.id.recyclerviewEducations);
@@ -182,6 +152,39 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         mRecyclerView.setAdapter(mEducationAdapter);
         mRecyclerView.setLayoutAnimation(animation);
 
+
+        imageAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCustomDialog();
+            }
+        });
+
+
+    }
+
+    public void showCustomDialog (){
+        final Dialog dialog = new Dialog(MainActivity.this);
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.custom_popup);
+
+        //initialize
+        final ImageView btnClose = dialog.findViewById(R.id.imageClose);
+        final TextView textAlertDialog = dialog.findViewById(R.id.textAlertDialog);
+
+        textAlertDialog.setText("Deneme yazısı deneme yazıs ");
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
 
     }
     private Runnable sliderRunnable = new Runnable() {
@@ -246,80 +249,12 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
     public void onEducationClicked(int position) {
         Intent intent = new Intent(MainActivity.this, EducationActivity.class);
         preferenceManager.putString(Constants.KEY_EDU_NAME,mEducationList.get(position).getName());
-        preferenceManager.putIntPosition(Constants.KEY_EDU_POSITION,position);
         startActivity(intent);
         //position bilgisini gönder bu bilgi 0 ise temel kelimedir
 
         //hangi kategoriden geldiyse o konular gelmeli
         //onPause();
         //put title bu title ile ilgili bilgiler yeni activity de açılmalı
-    }
-
-    @Override
-    public void onEduCardClicked(int position) {
-
-        textTitles.setText(mcategoriesCardList.get(position).getEduCategoriesTitle());
-        preferenceManager.putIntPosition(Constants.KEY_CATEGORIES_POSITION, position);
-
-        if (position == 0){
-
-            mEducationList.clear();
-            mEducationList.add(new EducationsModel("Temel Kelimeler1","Lorem Ipsum is simply dummy text of the printingebility and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Temel Kelimeler2","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Temel Kelimeler3","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Temel Kelimeler4","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Temel Kelimeler5","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Temel Kelimeler6","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Temel Kelimeler7","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationAdapter.notifyDataSetChanged();
-            mRecyclerView.setAdapter(mEducationAdapter);
-            mRecyclerView.startLayoutAnimation();
-
-        }if (position == 1){
-            mEducationList.clear();
-            // tanımlama
-            mEducationList.add(new EducationsModel("Pre-Sale 1","Lorem Ipsum is simply dummy text of the printingebility and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Pre-Sale 2","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Pre-Sale 3","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Pre-Sale 4","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Pre-Sale 5","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Pre-Sale 6","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Pre-Sale 7","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-
-            mEducationAdapter.notifyDataSetChanged();
-            mRecyclerView.setAdapter(mEducationAdapter);
-            mRecyclerView.startLayoutAnimation();
-
-        }if (position ==2 ){
-            mEducationList.clear();
-            // tanımlama
-            mEducationList.add(new EducationsModel("Airdroplar 1","Lorem Ipsum is simply dummy text of the printingebility and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Airdroplar 2","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Airdroplar 3","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Airdroplar 4","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Airdroplar 5","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Airdroplar 6","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("Airdroplar 7","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-
-            mEducationAdapter.notifyDataSetChanged();
-            mRecyclerView.setAdapter(mEducationAdapter);
-            mRecyclerView.startLayoutAnimation();
-        }if (position ==3 ){
-            mEducationList.clear();
-            // tanımlama
-            mEducationList.add(new EducationsModel("NFTs 1","Lorem Ipsum is simply dummy text of the printingebility and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("NFTs 2","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("NFTs 3","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("NFTs 4","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("NFTs 5","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("NFTs 6","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-            mEducationList.add(new EducationsModel("NFTs 7","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-
-            mEducationAdapter.notifyDataSetChanged();
-            mRecyclerView.setAdapter(mEducationAdapter);
-            mRecyclerView.startLayoutAnimation();
-
-        }
     }
 
 

@@ -39,8 +39,8 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    //cardSwipe
-    implementation 'com.huxq17.android:SwipeCardsView:1.3.5'
+    //image zoom
+    implementation 'com.zolad:zoominimageview:1.0.0'
 
 
 }

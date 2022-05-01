@@ -20,8 +20,6 @@
     <color name="colorOrange">#FF9800</color>
     <color name="colorYellow">#FFFAAF</color>
 
-    <color name="colorSwipe1">#ED346B</color>
-    <color name="colorSwipe2">#68ED346B</color>
     <color name="colorEducations0">#ED346B</color>
     <color name="colorEducations1">#2BB7BA</color>
     <color name="colorEducations2">#EBA173</color>
@@ -29,8 +27,6 @@
     <color name="colorEducations4">#FC6B6B</color>
     <color name="colorEducations5">#348AED</color>
 
-    <color name="colorProfile1">#FFF1F1</color>
     <color name="colorProfile2">#F86C6C</color>
-    <color name="colorProfileBtn">#F99B9B</color>
 
 </resources>

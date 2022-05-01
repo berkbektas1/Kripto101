@@ -31,7 +31,6 @@ public class EducationActivity extends AppCompatActivity implements EducationOnC
     private WordsAdapter mWordsAdapter;
     private ArrayList<WordsModel> mWordsList;
     private EditText editTextSearchView;
-    private Image imageWord;
     private TextView textEduNameTitle;
 
     //preferences
@@ -54,31 +53,19 @@ public class EducationActivity extends AppCompatActivity implements EducationOnC
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //if eğer categori 0(Eğitimler) education 0(price action) daki eğitimler ->
 
-        /*
-        2 Adet Detay sayfası var biri cardSwipe diğeri konu anlatımı
-            -Eğitimler
-                -Temel Kelimeler position 0
-                    -Seviye 1
-                    -Seviye 2...
-                -Price Action
-                    -imbalance
-                    -order block
-                -On chain
-            -Airdrops
-
-        */
 
 
         // tanımlama
         mWordsList = new ArrayList<>();
-        mWordsList.add(new WordsModel("Imbalance", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mWordsList.add(new WordsModel("Order Block ", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
+        mWordsList.add(new WordsModel("Imbalance", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry." +
+                "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.deneme_grafik));
+        mWordsList.add(new WordsModel("Order Block ", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry." +
+                "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.deneme_grafik));
         mWordsList.add(new WordsModel("Qasimodo", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mWordsList.add(new WordsModel("Supply", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mWordsList.add(new WordsModel("Demand", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mWordsList.add(new WordsModel("Trend", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
+        mWordsList.add(new WordsModel("Supply", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.deneme_grafik));
+        mWordsList.add(new WordsModel("Demand", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.deneme_grafik));
+        mWordsList.add(new WordsModel("Trend", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.deneme_grafik));
         mWordsList.add(new WordsModel("Destek", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
         mWordsList.add(new WordsModel("Trend1", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
         mWordsList.add(new WordsModel("Trend2", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
@@ -113,14 +100,10 @@ public class EducationActivity extends AppCompatActivity implements EducationOnC
             public void afterTextChanged(Editable editable) {
 
             }
-
         });
-
-
 
     }
 
-    //
     public void getBackButton(View view){
         onBackPressed();
         finish();
@@ -129,16 +112,9 @@ public class EducationActivity extends AppCompatActivity implements EducationOnC
 
     @Override
     public void onEduWordsListener(int position) {
-        //Categories 0 ve Education 0 ise Eğitimler->temel kelimeler dedir, 1.Detail Activityye Eğer konsept eğitimi ise 2.Detay sayfanına tönlenmeli
-        if (preferenceManager.getIntPosition(Constants.KEY_EDU_POSITION) == 0 && preferenceManager.getIntPosition(Constants.KEY_CATEGORIES_POSITION) == 0){
-        Intent intent = new Intent(EducationActivity.this, DetailActivity1.class);
+        Toast.makeText(this, "Position : " + preferenceManager.getIntPosition(Constants.KEY_EDU_POSITION), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(EducationActivity.this, DetailActivity2.class);
         startActivity(intent);
-        }else {
-            //Diğer tüm olasılıklar eğitim sayfasına
-            Toast.makeText(this, "Position : " + preferenceManager.getIntPosition(Constants.KEY_EDU_POSITION), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(EducationActivity.this, DetailActivity2.class);
-            startActivity(intent);
-        }
 
     }
 }
