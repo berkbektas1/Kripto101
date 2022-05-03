@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="21dp"
                     android:gravity="start"
-                    android:text="@string/name"
+                    android:text="@string/Name"
                     android:textColor="@color/colorProfile2"
                     android:textSize="20sp"
                     android:fontFamily="@font/segoe_ui_bold"

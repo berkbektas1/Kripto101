@@ -35,6 +35,8 @@ package com.example.kripto101.Activities;
         import com.example.kripto101.Models.SliderItem;
         import com.example.kripto101.utilities.Constants;
         import com.example.kripto101.utilities.PreferenceManager;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.auth.FirebaseUser;
 
         import java.util.ArrayList;
         import java.util.List;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +78,10 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         textTitles = findViewById(R.id.textTitles);
         imageUser = findViewById(R.id.profile_image);
         imageAlert = findViewById(R.id.imageAlert_i);
-
         imageUser.setImageResource(R.drawable.ic_settings_white);
-        textUserName.setText("Berk Bektaş");
+
+
+        textUserName.setText(preferenceManager.getString(Constants.KEY_FULL_NAME));
 
         //Recyclerview Animation
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation);

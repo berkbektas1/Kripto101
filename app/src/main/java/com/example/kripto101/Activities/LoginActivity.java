@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kripto101.R;
+import com.example.kripto101.utilities.Constants;
+import com.example.kripto101.utilities.PreferenceManager;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -25,15 +27,26 @@ public class LoginActivity extends AppCompatActivity {
 
     private ImageView imageHeaderLogo;
     private EditText inputEmail, inputPassword;
-    TextView textSignUp, textForgot;
-    Button btnSignIn;
+    private TextView textSignUp, textForgot;
+    private Button btnSignIn;
     ProgressBar progressBar;
+
+    private PreferenceManager preferenceManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        preferenceManager = new PreferenceManager(getApplicationContext());
+
+        if (preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN)){
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
 
         topAnim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
