@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
@@ -30,8 +31,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,99 +85,100 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //user data the form
-
-                final String fullName = inputUserName.getText().toString().trim();
-                final String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-                String confPas = inputConfirmPassword.getText().toString().trim();
-
-                if (fullName.isEmpty()) {
-                    inputUserName.setError("Name is required.");
-                    return;
-                }
-                if (!(fullName.length() >= 3)) {
-                    inputUserName.setError("Min 3 characters.");
-                    return;
-                }
-                if (email.isEmpty()) {
-                    inputEmail.setError("Email is required.");
-                    return;
-                }
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    inputEmail.setError("Invalid email address.");
-                    return;
-                }
-                if (password.isEmpty()) {
-                    inputPassword.setError("Password is required.");
-                    return;
-                }
-                if (!(password.length() >= 8)) {
-                    inputPassword.setError("Password min 8 characters.");
-                    return;
-                }
-                if (confPas.isEmpty()) {
-                    inputConfirmPassword.setError("Confirm Password is required.");
-                    return;
-                }
-                if (!password.equals(confPas)) {
-                    inputConfirmPassword.setError("Password Do Not Match.");
-                    return;
-                }
-
-                // firebase save data
-
-                btnSignUp.setVisibility(View.INVISIBLE);
-                progressBar.setVisibility(View.VISIBLE);
-
-                fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        if (task.isSuccessful()) {
-                            final String regDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-
-                            FirebaseFirestore database = FirebaseFirestore.getInstance();
-                            HashMap<String, Object> user = new HashMap<>();
-                            user.put(Constants.KEY_FULL_NAME, fullName);
-                            user.put(Constants.KEY_EMAIL, email);
-                            user.put(Constants.KEY_REG_DATE, regDate);
-                            user.put(Constants.KEY_LEVEL_ACCOUNT, "Base");
-
-                            database.collection(Constants.KEY_COLLECTION_USERS).add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-                                    preferenceManager.putString(Constants.KEY_FULL_NAME, fullName);
-                                    preferenceManager.putString(Constants.KEY_EMAIL, email);
-                                    preferenceManager.putString(Constants.KEY_REG_DATE, regDate);
-                                    preferenceManager.putString(Constants.KEY_LEVEL_ACCOUNT, "Base");
-
-                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                                    finish();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    btnSignUp.setVisibility(View.VISIBLE);
-                                    progressBar.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(RegisterActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        btnSignUp.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(RegisterActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                userRegister();
             }
         });
 
+    }
+
+    private void userRegister(){
+        final String fullName = inputUserName.getText().toString().trim();
+        final String email = inputEmail.getText().toString().trim();
+        String password = inputPassword.getText().toString().trim();
+        String confPas = inputConfirmPassword.getText().toString().trim();
+
+        if (fullName.isEmpty()) {
+            inputUserName.setError("Name is required.");
+            return;
+        }
+        if (!(fullName.length() >= 3)) {
+            inputUserName.setError("Min 3 characters.");
+            return;
+        }
+        if (email.isEmpty()) {
+            inputEmail.setError("Email is required.");
+            return;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            inputEmail.setError("Invalid email address.");
+            return;
+        }
+        if (password.isEmpty()) {
+            inputPassword.setError("Password is required.");
+            return;
+        }
+        if (!(password.length() >= 8)) {
+            inputPassword.setError("Password min 8 characters.");
+            return;
+        }
+        if (confPas.isEmpty()) {
+            inputConfirmPassword.setError("Confirm Password is required.");
+            return;
+        }
+        if (!password.equals(confPas)) {
+            inputConfirmPassword.setError("Password Do Not Match.");
+            return;
+        }
+
+        // firebase save data
+
+        btnSignUp.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful()) {
+                    final String regDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+
+                    User user = new User(fullName, email, regDate, "Base");
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                    database.getReference(Constants.KEY_COLLECTION_USERS)
+                            .child(fAuth.getCurrentUser().getUid())
+                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                            preferenceManager.putString(Constants.KEY_FULL_NAME, fullName);
+                            preferenceManager.putString(Constants.KEY_EMAIL, email);
+                            preferenceManager.putString(Constants.KEY_REG_DATE, regDate);
+                            preferenceManager.putString(Constants.KEY_LEVEL_ACCOUNT, "Base");
+                            Log.d("Log", "Create Account");
+
+                            Toast.makeText(RegisterActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                            finish();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            btnSignUp.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Toast.makeText(RegisterActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                btnSignUp.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(RegisterActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void getForgetActivity(View view) {
@@ -185,5 +186,4 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 }
