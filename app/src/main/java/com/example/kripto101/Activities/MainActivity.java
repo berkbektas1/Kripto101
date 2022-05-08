@@ -45,18 +45,19 @@ package com.example.kripto101.Activities;
         import com.google.firebase.database.DatabaseReference;
         import com.google.firebase.database.FirebaseDatabase;
         import com.google.firebase.database.ValueEventListener;
+        import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+        import com.smarteist.autoimageslider.SliderAnimations;
+        import com.smarteist.autoimageslider.SliderView;
 
         import java.util.ArrayList;
         import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ClickedListener {
 
-    private ViewPager2 viewPager2;
+    SliderView sliderView;
     List<SliderItem> sliderItems;
-    private Handler sliderHandler = new Handler();
+    SliderAdapter sliderAdapter;
 
-    LinearLayout dotsLayout;
-    TextView[] dots;
     private TextView textUserName,textTitles;
     private ImageView imageUser, imageAlert;
 
@@ -80,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         preferenceManager.putIntPosition(Constants.KEY_EDU_POSITION,0);// ilk açılışta default olarak 0 geliyor
 
         Log.d("Log", preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN).toString());
-        viewPager2 = findViewById(R.id.viewPagerImageSlider);
-        dotsLayout = findViewById(R.id.dotsContainer);
+
+        sliderView = findViewById(R.id.imageSlider);
         textUserName = findViewById(R.id.textUserName);
         textTitles = findViewById(R.id.textTitles);
         imageUser = findViewById(R.id.profile_image);
@@ -112,10 +113,8 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
     }
 
     private void createSlider() {
-        //Here, i'm preparing list of images from drawbal,
-        //YOu can get it from Api as well
         sliderItems = new ArrayList<>();
-/*
+
         databaseReference = FirebaseDatabase.getInstance().getReference("Slider");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
                     SliderItem data = snapshot.getValue(SliderItem.class);
                     sliderItems.add(new SliderItem(data.getImage(),data.getLink()));
                 }
-
+                sliderAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -133,47 +132,13 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
                 Toast.makeText(MainActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-*/
 
-        sliderItems.add(new SliderItem("https://firebasestorage.googleapis.com/v0/b/priceactionwar-2406b.appspot.com/o/slider%2Fheader_slider.png?alt=media&token=35ff8e5e-41ec-4540-9c5a-27ab7e852e63", "https://www.binance.com/en"));
-        sliderItems.add(new SliderItem("https://firebasestorage.googleapis.com/v0/b/priceactionwar-2406b.appspot.com/o/slider%2Fheader_slider.png?alt=media&token=35ff8e5e-41ec-4540-9c5a-27ab7e852e63", "https://www.bybit.com/tr-TR/"));
-        sliderItems.add(new SliderItem("https://firebasestorage.googleapis.com/v0/b/priceactionwar-2406b.appspot.com/o/slider%2Fheader_slider.png?alt=media&token=35ff8e5e-41ec-4540-9c5a-27ab7e852e63", "https://www.gate.io/tr/"));
-        sliderItems.add(new SliderItem("https://firebasestorage.googleapis.com/v0/b/priceactionwar-2406b.appspot.com/o/slider%2Fheader_slider.png?alt=media&token=35ff8e5e-41ec-4540-9c5a-27ab7e852e63", "https://ftx.com/tr"));
+        sliderAdapter = new SliderAdapter(sliderItems,this);
+        sliderView.setSliderAdapter(sliderAdapter);
+        sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
+        sliderView.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+        sliderView.startAutoCycle();
 
-        dots = new TextView[sliderItems.size()];
-        dotsIndicator();
-
-        viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2, this));
-
-        viewPager2.setClipToPadding(false);
-        viewPager2.setClipChildren(false);
-        viewPager2.setOffscreenPageLimit(3);
-        viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-
-        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-        compositePageTransformer.addTransformer(new MarginPageTransformer(30));
-        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                float r = 1 - Math.abs(position);
-                page.setScaleY(0.9f + r * 0.15f);
-            }
-        });
-        viewPager2.setPageTransformer(compositePageTransformer);
-
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                selectedIndicator(position);
-                super.onPageSelected(position);
-
-                sliderHandler.removeCallbacks(sliderRunnable);
-                sliderHandler.postDelayed(sliderRunnable, 3000);//slide duration 3 second
-
-                Toast.makeText(MainActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 
     private void createRecyclerView() {
@@ -271,41 +236,6 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         dialog.show();
 
     }
-    private Runnable sliderRunnable = new Runnable() {
-        @Override
-        public void run() {
-            //slider back to top
-            if (viewPager2.getCurrentItem() < sliderItems.size()-1){
-                viewPager2.setCurrentItem(viewPager2.getCurrentItem()+1);
-            }else{
-                viewPager2.setCurrentItem(0);
-            }
-
-        }
-    };
-
-    private void selectedIndicator(int position) {
-        for(int i=0;i<dots.length;i++){
-            if (i==position){
-                dots[i].setTextColor(getResources().getColor(R.color.colorBlue));
-            }else
-            {
-                dots[i].setTextColor(getResources().getColor(R.color.white));
-            }
-        }
-
-
-    }
-
-    private void dotsIndicator() {
-        for(int i= 0;i<dots.length;i++){
-            dots[i] = new TextView(this);
-            dots[i].setText(Html.fromHtml("&#9679;"));
-            dots[i].setTextSize(18);
-            dotsLayout.addView(dots[i]);
-        }
-
-    }
 
     public void getProfileActivity(View view){
         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
@@ -319,14 +249,6 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sliderItems.get(position).getLink()));
         startActivity(browserIntent);
 
-        /*
-        if activity için ;
-
-        Intent intent = new Intent(getApplicationContext(), DetaildActivity.class);
-        intent.putExtra("key",position);
-        startActivity(intent);
-
-         */
     }
 
     @Override
@@ -341,17 +263,6 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         //put title bu title ile ilgili bilgiler yeni activity de açılmalı
     }
 
-
-    protected void onStop() {
-        super.onStop();
-        sliderHandler.removeCallbacks(sliderRunnable);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sliderHandler.postDelayed(sliderRunnable, 3000);
-    }
 
     @Override
     public void onBackPressed() {

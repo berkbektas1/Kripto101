@@ -1,86 +1,66 @@
 package com.example.kripto101.Adapters;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
 import com.example.kripto101.ClickedListener;
-import com.example.kripto101.R;
 import com.example.kripto101.Models.SliderItem;
-import com.makeramen.roundedimageview.RoundedImageView;
+import com.example.kripto101.R;
+import com.smarteist.autoimageslider.SliderView;
+import com.smarteist.autoimageslider.SliderViewAdapter;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
-public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderViewHolder> {
+
+public class SliderAdapter extends SliderViewAdapter<SliderAdapter.Holder> {
 
     private List<SliderItem> sliderItems;
-    private ViewPager2 viewPager2;
     private ClickedListener clickedListener;
 
-     public SliderAdapter(List<SliderItem> sliderItems, ViewPager2 viewPager2, ClickedListener clickedListener) {
+    public SliderAdapter(List<SliderItem> sliderItems, ClickedListener clickedListener) {
         this.sliderItems = sliderItems;
-        this.viewPager2 = viewPager2;
         this.clickedListener = clickedListener;
     }
 
-    @NonNull
     @Override
-    public SliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new SliderViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.slide_item_container,
-                        parent,
-                        false
-                )
-        );
+    public Holder onCreateViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.slide_item_container,parent,false);
+        return new Holder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {
-        holder.setImage(sliderItems.get(position));
+    public void onBindViewHolder(Holder viewHolder, int position) {
+        SliderItem item = sliderItems.get(position);
+        Picasso.get().load(item.getImage()).into(viewHolder.imageView);
+
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickedListener.onPictureClicked(position);
+            }
+        });
 
     }
 
     @Override
-    public int getItemCount() {
+    public int getCount() {
         return sliderItems.size();
     }
 
-    class SliderViewHolder extends RecyclerView.ViewHolder {
+    public class Holder extends SliderViewAdapter.ViewHolder{
 
-        private RoundedImageView imageView;
+        ImageView imageView;
 
-         SliderViewHolder(@NonNull View itemView) {
+        public Holder(View itemView){
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageSlide);
-        }
-
-        void setImage(final SliderItem sliderItem) {
-            //If you want to display image from the internet
-            //You can put code here using glide or picasso
-            Glide.with(imageView.getContext())
-                    .load(sliderItem.getImage()).into(imageView);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    clickedListener.onPictureClicked(getAdapterPosition());
-
-
-                }
-            });
+            imageView = itemView.findViewById(R.id.imageView);
 
         }
-
     }
-
-
-
-
 }
