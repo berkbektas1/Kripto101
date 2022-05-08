@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.kripto101.ClickedListener;
 import com.example.kripto101.Models.EducationsModel;
 import com.example.kripto101.R;
@@ -45,7 +46,9 @@ public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.Vi
         EducationsModel currentItem = mEducationList.get(position);
         holder.textTitle.setText(currentItem.getName());
         holder.textDescription.setText(currentItem.getDescription());
-        holder.imageEducation.setImageResource(currentItem.getImageEdu());
+
+        Glide.with(holder.imageEducation.getContext())
+                .load(currentItem.getImageEdu()).into(holder.imageEducation);
 
         getColor(holder,position);
 

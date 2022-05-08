@@ -48,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Log.d("Log", "LogOut");
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                 finish();
+                finishAffinity();
             }
         });
 

@@ -28,7 +28,8 @@
             app:layout_constraintBottom_toBottomOf="@id/container1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/container1"
-            app:layout_constraintWidth_percent="0.25" />
+            app:layout_constraintWidth_percent="0.25"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/textEduName"
@@ -82,9 +83,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchView" />
-
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

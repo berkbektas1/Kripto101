@@ -10,11 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.example.kripto101.ClickedListener;
 import com.example.kripto101.R;
 import com.example.kripto101.Models.SliderItem;
 import com.makeramen.roundedimageview.RoundedImageView;
-
 import java.util.List;
 
 public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderViewHolder> {
@@ -64,7 +64,8 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderView
         void setImage(final SliderItem sliderItem) {
             //If you want to display image from the internet
             //You can put code here using glide or picasso
-            imageView.setImageResource(sliderItem.getImage());
+            Glide.with(imageView.getContext())
+                    .load(sliderItem.getImage()).into(imageView);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

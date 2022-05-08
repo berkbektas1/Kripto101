@@ -18,8 +18,11 @@ package com.example.kripto101.Activities;
         import android.os.Bundle;
         import android.os.Handler;
         import android.text.Html;
+        import android.transition.Slide;
+        import android.util.Log;
         import android.view.View;
         import android.view.Window;
+        import android.view.accessibility.AccessibilityManager;
         import android.view.animation.AnimationUtils;
         import android.view.animation.LayoutAnimationController;
         import android.widget.ImageView;
@@ -37,6 +40,11 @@ package com.example.kripto101.Activities;
         import com.example.kripto101.utilities.PreferenceManager;
         import com.google.firebase.auth.FirebaseAuth;
         import com.google.firebase.auth.FirebaseUser;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.ValueEventListener;
 
         import java.util.ArrayList;
         import java.util.List;
@@ -56,10 +64,10 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
     private RecyclerView mRecyclerView;
     private EducationsAdapter mEducationAdapter;
     private ArrayList<EducationsModel> mEducationList;
+    LayoutAnimationController animation;
 
+    private DatabaseReference databaseReference;
     private PreferenceManager preferenceManager;
-
-
 
 
     @Override
@@ -71,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         preferenceManager = new PreferenceManager(getApplicationContext());
         preferenceManager.putIntPosition(Constants.KEY_EDU_POSITION,0);// ilk açılışta default olarak 0 geliyor
 
-
+        Log.d("Log", preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN).toString());
         viewPager2 = findViewById(R.id.viewPagerImageSlider);
         dotsLayout = findViewById(R.id.dotsContainer);
         textUserName = findViewById(R.id.textUserName);
@@ -84,16 +92,53 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         textUserName.setText(preferenceManager.getString(Constants.KEY_FULL_NAME));
 
         //Recyclerview Animation
-        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation);
+        animation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation);
 
 
+        createSlider();
+
+        createRecyclerView();
+
+
+        imageAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean temp = true;
+                showCustomDialog(temp);
+                temp = false;
+            }
+        });
+
+    }
+
+    private void createSlider() {
         //Here, i'm preparing list of images from drawbal,
         //YOu can get it from Api as well
         sliderItems = new ArrayList<>();
-        sliderItems.add(new SliderItem(R.drawable.header_slider, "https://www.binance.com/en"));
-        sliderItems.add(new SliderItem(R.drawable.header_slider, "https://www.bybit.com/tr-TR/"));
-        sliderItems.add(new SliderItem(R.drawable.header_slider, "https://www.gate.io/tr/"));
-        sliderItems.add(new SliderItem(R.drawable.header_slider, "https://ftx.com/tr"));
+/*
+        databaseReference = FirebaseDatabase.getInstance().getReference("Slider");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    SliderItem data = snapshot.getValue(SliderItem.class);
+                    sliderItems.add(new SliderItem(data.getImage(),data.getLink()));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+*/
+
+        sliderItems.add(new SliderItem("https://firebasestorage.googleapis.com/v0/b/priceactionwar-2406b.appspot.com/o/slider%2Fheader_slider.png?alt=media&token=35ff8e5e-41ec-4540-9c5a-27ab7e852e63", "https://www.binance.com/en"));
+        sliderItems.add(new SliderItem("https://firebasestorage.googleapis.com/v0/b/priceactionwar-2406b.appspot.com/o/slider%2Fheader_slider.png?alt=media&token=35ff8e5e-41ec-4540-9c5a-27ab7e852e63", "https://www.bybit.com/tr-TR/"));
+        sliderItems.add(new SliderItem("https://firebasestorage.googleapis.com/v0/b/priceactionwar-2406b.appspot.com/o/slider%2Fheader_slider.png?alt=media&token=35ff8e5e-41ec-4540-9c5a-27ab7e852e63", "https://www.gate.io/tr/"));
+        sliderItems.add(new SliderItem("https://firebasestorage.googleapis.com/v0/b/priceactionwar-2406b.appspot.com/o/slider%2Fheader_slider.png?alt=media&token=35ff8e5e-41ec-4540-9c5a-27ab7e852e63", "https://ftx.com/tr"));
 
         dots = new TextView[sliderItems.size()];
         dotsIndicator();
@@ -129,8 +174,9 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
 
             }
         });
+    }
 
-
+    private void createRecyclerView() {
         // Eğitimler
         mRecyclerView = findViewById(R.id.recyclerviewEducations);
         mRecyclerView.setHasFixedSize(true);
@@ -138,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
 
         // tanımlama
         mEducationList = new ArrayList<>();
+        /*
         mEducationList.add(new EducationsModel("Temel Kelimeler1","Lorem Ipsum is simply dummy text of the printingebility and typesetting industry.",R.drawable.profile_pic));
         mEducationList.add(new EducationsModel("Temel Kelimeler2","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
         mEducationList.add(new EducationsModel("Temel Kelimeler3","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
@@ -145,6 +192,25 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         mEducationList.add(new EducationsModel("Temel Kelimeler5","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
         mEducationList.add(new EducationsModel("Temel Kelimeler6","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
         mEducationList.add(new EducationsModel("Temel Kelimeler7","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
+
+*/
+        databaseReference = FirebaseDatabase.getInstance().getReference("Educations");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    EducationsModel eduModel = dataSnapshot.getValue(EducationsModel.class);
+
+                    mEducationList.add(new EducationsModel(eduModel.getName(),eduModel.getDescription(),eduModel.getImageEdu()));
+                }
+                mEducationAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 
@@ -155,19 +221,9 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setAdapter(mEducationAdapter);
         mRecyclerView.setLayoutAnimation(animation);
-
-
-        imageAlert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showCustomDialog();
-            }
-        });
-
-
     }
 
-    public void showCustomDialog (){
+    public void showCustomDialog (boolean temp){
         final Dialog dialog = new Dialog(MainActivity.this);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -178,8 +234,32 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         //initialize
         final ImageView btnClose = dialog.findViewById(R.id.imageClose);
         final TextView textAlertDialog = dialog.findViewById(R.id.textAlertDialog);
+        TextView textDevam = dialog.findViewById(R.id.textDevam);
+        TextView textCıkıs = dialog.findViewById(R.id.textCıkıs);
 
-        textAlertDialog.setText("Deneme yazısı deneme yazıs ");
+        if (temp == true){
+            textAlertDialog.setText(R.string.loremIpsum);
+            textDevam.setVisibility(View.GONE);
+            textCıkıs.setVisibility(View.GONE);
+        }else {
+            textDevam.setVisibility(View.VISIBLE);
+            textCıkıs.setVisibility(View.VISIBLE);
+            textAlertDialog.setText("Uygulamadan çıkmak istediğinize emin misiniz?");
+        }
+
+        textDevam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        textCıkıs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finishAffinity();
+            }
+        });
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,5 +351,12 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
     protected void onResume() {
         super.onResume();
         sliderHandler.postDelayed(sliderRunnable, 3000);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        showCustomDialog(false);
+
     }
 }

@@ -6,18 +6,24 @@ public class SliderItem {
     //If you want to load image from the internet
     // name
     //referans linknin eklenmesi lazım
-    private int image;
-    private String link;
-    public SliderItem(int image,String link)
+    private String image, link;
+
+    public SliderItem() {
+    }
+
+    public SliderItem(String image, String link)
     {
         this.image = image;
         this.link = link;
     }
-    public int getImage(){
+
+    public String getImage(){
         return image;
     }
 
     public String getLink() {
         return link;
     }
+
+
 }
