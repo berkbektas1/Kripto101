@@ -78,36 +78,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:sliderAnimationDuration="600"
-                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderAutoCycleDirection="right"
                     app:sliderAutoCycleEnabled="true"
                     app:sliderIndicatorAnimationDuration="600"
                     app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorEnabled="true"
                     app:sliderIndicatorMargin="15dp"
                     app:sliderIndicatorOrientation="horizontal"
                     app:sliderIndicatorPadding="3dp"
                     app:sliderIndicatorRadius="2dp"
                     app:sliderIndicatorSelectedColor="@color/colorRed"
                     app:sliderIndicatorUnselectedColor="@color/colorWhite"
-                    app:sliderScrollTimeInSec="2"
+                    app:sliderScrollTimeInSec="3"
                     app:sliderStartAutoCycle="true"
-                    app:layout_constraintBottom_toTopOf="@id/dotsContainer"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <LinearLayout
-                    android:id="@+id/dotsContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageSlider">
-
-                </LinearLayout>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

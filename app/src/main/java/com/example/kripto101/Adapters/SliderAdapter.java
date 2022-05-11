@@ -1,6 +1,5 @@
 package com.example.kripto101.Adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import com.example.kripto101.ClickedListener;
 import com.example.kripto101.Models.SliderItem;
 import com.example.kripto101.R;
-import com.smarteist.autoimageslider.SliderView;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -39,12 +37,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.Holder> {
         SliderItem item = sliderItems.get(position);
         Picasso.get().load(item.getImage()).into(viewHolder.imageView);
 
-        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickedListener.onPictureClicked(position);
-            }
-        });
+        viewHolder.imageView.setOnClickListener(view -> clickedListener.onPictureClicked(position));
 
     }
 
@@ -53,11 +46,11 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.Holder> {
         return sliderItems.size();
     }
 
-    public class Holder extends SliderViewAdapter.ViewHolder{
+    static class Holder extends SliderViewAdapter.ViewHolder{
 
         ImageView imageView;
 
-        public Holder(View itemView){
+        Holder(View itemView){
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
 

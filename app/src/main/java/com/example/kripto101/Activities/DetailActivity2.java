@@ -2,6 +2,7 @@ package com.example.kripto101.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.Html;
@@ -12,33 +13,44 @@ import android.widget.TextView;
 import com.example.kripto101.R;
 import com.example.kripto101.utilities.Constants;
 import com.example.kripto101.utilities.PreferenceManager;
+import com.squareup.picasso.Picasso;
 
 import java.util.prefs.PreferenceChangeEvent;
 
 public class DetailActivity2 extends AppCompatActivity {
 
-    private TextView textEduName, textSubName, textAuthor, textConcept;
+    private TextView textEduName, textSubName, textAuthor, textDescription;
     private ImageView imageConcept, ic_mark;
 
-    private PreferenceManager preferenceManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail2);
 
-        preferenceManager = new PreferenceManager(getApplicationContext());
 
         textEduName = findViewById(R.id.textEduName);
         textSubName = findViewById(R.id.textSubName);
-        textConcept = findViewById(R.id.textConcept);
+        textDescription = findViewById(R.id.textDescription);
         textAuthor = findViewById(R.id.textAuthor);
         imageConcept = findViewById(R.id.imageConcept);
         ic_mark = findViewById(R.id.ic_mark);
 
-        textEduName.setText("Price Action");
-        textSubName.setText("Range Trades");
-        textAuthor.setText("Author: @berkbektas");
+        Intent i = getIntent();
+        //getData
+        String title = i.getStringExtra("title");
+        String subTitle = i.getStringExtra("subTitle");
+        String author = i.getStringExtra("author");
+        String description = i.getStringExtra("description");
+        String image = i.getStringExtra("image");
+
+
+        textEduName.setText(title);
+        textSubName.setText(subTitle);
+        textAuthor.setText(author);
+        textDescription.setText(description);
+        Picasso.get().load(image).into(imageConcept);
 
         ic_mark.setColorFilter(getColor(R.color.colorEducations1));
 

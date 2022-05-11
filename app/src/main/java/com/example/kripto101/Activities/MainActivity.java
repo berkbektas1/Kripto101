@@ -1,64 +1,55 @@
 package com.example.kripto101.Activities;
 
-        import androidx.annotation.NonNull;
-        import androidx.appcompat.app.AppCompatActivity;
-        import androidx.recyclerview.widget.GridLayoutManager;
-        import androidx.recyclerview.widget.LinearLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
-        import androidx.viewpager2.widget.CompositePageTransformer;
-        import androidx.viewpager2.widget.MarginPageTransformer;
-        import androidx.viewpager2.widget.ViewPager2;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-        import android.app.Dialog;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.graphics.Color;
-        import android.graphics.drawable.ColorDrawable;
-        import android.net.Uri;
-        import android.os.Bundle;
-        import android.os.Handler;
-        import android.text.Html;
-        import android.transition.Slide;
-        import android.util.Log;
-        import android.view.View;
-        import android.view.Window;
-        import android.view.accessibility.AccessibilityManager;
-        import android.view.animation.AnimationUtils;
-        import android.view.animation.LayoutAnimationController;
-        import android.widget.ImageView;
-        import android.widget.LinearLayout;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.example.kripto101.Adapters.EducationsAdapter;
-        import com.example.kripto101.ClickedListener;
-        import com.example.kripto101.Models.EducationsModel;
-        import com.example.kripto101.R;
-        import com.example.kripto101.Adapters.SliderAdapter;
-        import com.example.kripto101.Models.SliderItem;
-        import com.example.kripto101.utilities.Constants;
-        import com.example.kripto101.utilities.PreferenceManager;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.auth.FirebaseUser;
-        import com.google.firebase.database.DataSnapshot;
-        import com.google.firebase.database.DatabaseError;
-        import com.google.firebase.database.DatabaseReference;
-        import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.database.ValueEventListener;
-        import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
-        import com.smarteist.autoimageslider.SliderAnimations;
-        import com.smarteist.autoimageslider.SliderView;
+import com.example.kripto101.Adapters.EducationsAdapter;
+import com.example.kripto101.ClickedListener;
+import com.example.kripto101.Models.EducationsModel;
+import com.example.kripto101.R;
+import com.example.kripto101.Adapters.SliderAdapter;
+import com.example.kripto101.Models.SliderItem;
+import com.example.kripto101.utilities.Constants;
+import com.example.kripto101.utilities.PreferenceManager;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ClickedListener {
 
     SliderView sliderView;
     List<SliderItem> sliderItems;
     SliderAdapter sliderAdapter;
+    SwipeRefreshLayout swipeRefreshLayout;
 
-    private TextView textUserName,textTitles;
+    private TextView textUserName, textTitles;
     private ImageView imageUser, imageAlert;
 
     //Recyclerview Education
@@ -67,9 +58,7 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
     private ArrayList<EducationsModel> mEducationList;
     LayoutAnimationController animation;
 
-    private DatabaseReference databaseReference;
     private PreferenceManager preferenceManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +67,10 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
 
 
         preferenceManager = new PreferenceManager(getApplicationContext());
-        preferenceManager.putIntPosition(Constants.KEY_EDU_POSITION,0);// ilk açılışta default olarak 0 geliyor
 
         Log.d("Log", preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN).toString());
 
+        swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         sliderView = findViewById(R.id.imageSlider);
         textUserName = findViewById(R.id.textUserName);
         textTitles = findViewById(R.id.textTitles);
@@ -89,40 +78,39 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         imageAlert = findViewById(R.id.imageAlert_i);
         imageUser.setImageResource(R.drawable.ic_settings_white);
 
-
+        textTitles.setText(R.string.e_itimler);
         textUserName.setText(preferenceManager.getString(Constants.KEY_FULL_NAME));
 
         //Recyclerview Animation
         animation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation);
 
-
+        swipeRefreshLayout.setOnRefreshListener(this::loadData);
+        loadData();
         createSlider();
-
         createRecyclerView();
 
-
-        imageAlert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean temp = true;
-                showCustomDialog(temp);
-                temp = false;
-            }
+        imageAlert.setOnClickListener(view -> {
+            boolean tempD = true;
+            showCustomDialog(tempD);
+            tempD = false;
         });
 
     }
 
-    private void createSlider() {
+    private void loadData() {
+        //slider
         sliderItems = new ArrayList<>();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Slider");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Slider");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                sliderItems.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     SliderItem data = snapshot.getValue(SliderItem.class);
-                    sliderItems.add(new SliderItem(data.getImage(),data.getLink()));
+                    if (data != null ) {
+                        sliderItems.add(new SliderItem(data.getImage(), data.getLink()));
+                    }
                 }
                 sliderAdapter.notifyDataSetChanged();
             }
@@ -133,12 +121,40 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
             }
         });
 
-        sliderAdapter = new SliderAdapter(sliderItems,this);
-        sliderView.setSliderAdapter(sliderAdapter);
-        sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
-        sliderView.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-        sliderView.startAutoCycle();
+        //Educations
+        mEducationList = new ArrayList<>();
+        databaseReference = FirebaseDatabase.getInstance().getReference("EducationAbstract");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mEducationList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    EducationsModel eduModel = dataSnapshot.getValue(EducationsModel.class);
+                    if (eduModel != null){
+                        mEducationList.add(new EducationsModel(eduModel.getName(), eduModel.getDescription(), eduModel.getImageEdu()));
+                    }
+                }
+                mEducationAdapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void createSlider() {
+        sliderAdapter = new SliderAdapter(sliderItems, this);
+        sliderView.setSliderAdapter(sliderAdapter);
+        sliderView.setIndicatorEnabled(true);
+        sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
+        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+        sliderView.setScrollTimeInSec(4);
+        sliderView.startAutoCycle();
     }
 
     private void createRecyclerView() {
@@ -147,48 +163,15 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // tanımlama
-        mEducationList = new ArrayList<>();
-        /*
-        mEducationList.add(new EducationsModel("Temel Kelimeler1","Lorem Ipsum is simply dummy text of the printingebility and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler2","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler3","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler4","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler5","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler6","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-        mEducationList.add(new EducationsModel("Temel Kelimeler7","Lorem Ipsum is simply dummy text of the printing and typesetting industry.",R.drawable.profile_pic));
-
-*/
-        databaseReference = FirebaseDatabase.getInstance().getReference("Educations");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    EducationsModel eduModel = dataSnapshot.getValue(EducationsModel.class);
-
-                    mEducationList.add(new EducationsModel(eduModel.getName(),eduModel.getDescription(),eduModel.getImageEdu()));
-                }
-                mEducationAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
-        mEducationAdapter = new EducationsAdapter(MainActivity.this,mEducationList, this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),1,GridLayoutManager.VERTICAL,false);
-
+        mEducationAdapter = new EducationsAdapter(MainActivity.this, mEducationList, this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 1, GridLayoutManager.VERTICAL, false);
 
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setAdapter(mEducationAdapter);
         mRecyclerView.setLayoutAnimation(animation);
     }
 
-    public void showCustomDialog (boolean temp){
+    public void showCustomDialog(boolean temp) {
         final Dialog dialog = new Dialog(MainActivity.this);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -199,75 +182,50 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         //initialize
         final ImageView btnClose = dialog.findViewById(R.id.imageClose);
         final TextView textAlertDialog = dialog.findViewById(R.id.textAlertDialog);
-        TextView textDevam = dialog.findViewById(R.id.textDevam);
-        TextView textCıkıs = dialog.findViewById(R.id.textCıkıs);
+        TextView textContinue = dialog.findViewById(R.id.textDevam);
+        TextView textExit = dialog.findViewById(R.id.textCıkıs);
 
-        if (temp == true){
+        if (temp) {
             textAlertDialog.setText(R.string.loremIpsum);
-            textDevam.setVisibility(View.GONE);
-            textCıkıs.setVisibility(View.GONE);
-        }else {
-            textDevam.setVisibility(View.VISIBLE);
-            textCıkıs.setVisibility(View.VISIBLE);
-            textAlertDialog.setText("Uygulamadan çıkmak istediğinize emin misiniz?");
+            textContinue.setVisibility(View.GONE);
+            textExit.setVisibility(View.GONE);
+        } else {
+            textContinue.setVisibility(View.VISIBLE);
+            textExit.setVisibility(View.VISIBLE);
+            textAlertDialog.setText(R.string.ExitString);
         }
 
-        textDevam.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        textContinue.setOnClickListener(view -> dialog.dismiss());
 
-        textCıkıs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finishAffinity();
-            }
-        });
+        textExit.setOnClickListener(view -> finishAffinity());
 
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        btnClose.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
 
     }
 
-    public void getProfileActivity(View view){
+    public void getProfileActivity(View view) {
         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(intent);
-
     }
 
     @Override
     public void onPictureClicked(int position) {
-
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sliderItems.get(position).getLink()));
         startActivity(browserIntent);
-
     }
 
     @Override
     public void onEducationClicked(int position) {
         Intent intent = new Intent(MainActivity.this, EducationActivity.class);
-        preferenceManager.putString(Constants.KEY_EDU_NAME,mEducationList.get(position).getName());
+        preferenceManager.putString(Constants.KEY_EDU_NAME, mEducationList.get(position).getName());
         startActivity(intent);
-        //position bilgisini gönder bu bilgi 0 ise temel kelimedir
-
-        //hangi kategoriden geldiyse o konular gelmeli
-        //onPause();
-        //put title bu title ile ilgili bilgiler yeni activity de açılmalı
     }
-
 
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
         showCustomDialog(false);
-
     }
 }

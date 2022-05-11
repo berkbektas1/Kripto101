@@ -17,6 +17,7 @@ import com.example.kripto101.ClickedListener;
 import com.example.kripto101.EducationOnClickedListener;
 import com.example.kripto101.Models.WordsModel;
 import com.example.kripto101.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -45,13 +46,9 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         WordsModel currentItem = mWordsModelList.get(position);
 
-        String words = currentItem.getWord();
-        String description = currentItem.getDescription();
-        int imageWord = currentItem.getImageWords();
-
-        holder.textWords.setText(words);
-        holder.textDescription.setText(description);
-        holder.imageWord.setImageResource(imageWord);
+        holder.textWords.setText(currentItem.getName());
+        holder.textDescription.setText(currentItem.getDescription());
+        Picasso.get().load(currentItem.getImage()).into(holder.imageEdu);
 
     }
 
@@ -74,7 +71,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
 
                     ArrayList<WordsModel> resultData = new ArrayList<>();
                     for (WordsModel wordsModel : getWordsListFilter) {
-                        if (wordsModel.getWord().toLowerCase().contains(searchChr)) {
+                        if (wordsModel.getName().toLowerCase().contains(searchChr)) {
                             resultData.add(wordsModel);
                         }
                     }
@@ -94,26 +91,21 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
         return filter;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView textWords,textDescription;
-        ImageView imageWord;
+        ImageView imageEdu;
 
-
-
-        public ViewHolder(@NonNull final View itemView) {
+        ViewHolder(@NonNull final View itemView) {
             super(itemView);
 
             textWords = itemView.findViewById(R.id.textWords);
             textDescription = itemView.findViewById(R.id.textDescriptions);
-            imageWord = itemView.findViewById(R.id.imageWord);
+            imageEdu = itemView.findViewById(R.id.imageEdu);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "Clicked = "+ textWords.getText().toString(), Toast.LENGTH_SHORT).show();
-                    clickedListener.onEduWordsListener(getAdapterPosition());
-                }
+            itemView.setOnClickListener(view -> {
+                Toast.makeText(view.getContext(), "Clicked = "+ textWords.getText().toString(), Toast.LENGTH_SHORT).show();
+                clickedListener.onEduWordsListener(getAdapterPosition());
             });
         }
     }

@@ -3,29 +3,32 @@ package com.example.kripto101.Models;
 import android.media.Image;
 
 public class WordsModel {
-    private String word;
-    private String description;
-    private int imageWords;
+    private String name, author, description, image;
 
     public WordsModel(){
 
     }
 
-    public WordsModel(String word, String description, int imageWords) {
-        this.word = word;
+    public WordsModel(String name, String author, String description, String image) {
+        this.name = name;
+        this.author = author;
         this.description = description;
-        this.imageWords = imageWords;
+        this.image = image;
     }
 
-    public String getWord() {
-        return word;
+    public String getName() {
+        return name;
+    }
+
+    public String getAuthor() {
+        return author;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public int getImageWords() {
-        return imageWords;
+    public String getImage() {
+        return image;
     }
 }

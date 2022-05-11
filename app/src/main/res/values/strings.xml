@@ -34,4 +34,5 @@
     <string name="cikis">Çıkış</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="devam_et">Devam Et</string>
+    <string name="ExitString">Uygulamadan çıkmak istediğinize emin misiniz?</string>
 </resources>

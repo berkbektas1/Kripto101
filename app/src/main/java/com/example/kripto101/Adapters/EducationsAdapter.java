@@ -1,12 +1,9 @@
 package com.example.kripto101.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,10 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.kripto101.ClickedListener;
 import com.example.kripto101.Models.EducationsModel;
 import com.example.kripto101.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -47,8 +44,7 @@ public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.Vi
         holder.textTitle.setText(currentItem.getName());
         holder.textDescription.setText(currentItem.getDescription());
 
-        Glide.with(holder.imageEducation.getContext())
-                .load(currentItem.getImageEdu()).into(holder.imageEducation);
+        Picasso.get().load(currentItem.getImageEdu()).into(holder.imageEducation);
 
         getColor(holder,position);
 
@@ -60,35 +56,30 @@ public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.Vi
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
         TextView textTitle, textDescription;
         ImageView imageEducation;
         LinearLayout containerCard;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             textTitle = itemView.findViewById(R.id.textCategories);
             textDescription = itemView.findViewById(R.id.textDescriptions);
             imageEducation = itemView.findViewById(R.id.imageEducations);
             containerCard = itemView.findViewById(R.id.containerCustomCard);
 
+            itemView.setOnClickListener(view -> {
+                Toast.makeText(view.getContext(), "Clicked = "+ textTitle.getText().toString(), Toast.LENGTH_SHORT).show();
+                clickedListener.onEducationClicked(getAdapterPosition());
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "Clicked = "+ textTitle.getText().toString(), Toast.LENGTH_SHORT).show();
-                    clickedListener.onEducationClicked(getAdapterPosition());
-
-
-                }
             });
         }
 
     }
 
 
-    public void getColor(ViewHolder holder, int position){
+    private void getColor(ViewHolder holder, int position){
         System.out.println(position);
         if (position % 6 == 0) {
             holder.containerCard.setBackgroundResource(R.color.colorEducations0);
