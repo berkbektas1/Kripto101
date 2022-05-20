@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,13 +23,14 @@ public class DetailActivity2 extends AppCompatActivity {
     private TextView textEduName, textSubName, textAuthor, textDescription;
     private ImageView imageConcept, ic_mark;
 
-
+    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail2);
 
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
         textEduName = findViewById(R.id.textEduName);
         textSubName = findViewById(R.id.textSubName);
@@ -49,13 +51,28 @@ public class DetailActivity2 extends AppCompatActivity {
         textEduName.setText(title);
         textSubName.setText(subTitle);
         textAuthor.setText(author);
-        textDescription.setText(description);
+        textDescription.setText(Html.fromHtml(description));
         Picasso.get().load(image).into(imageConcept);
 
-        ic_mark.setColorFilter(getColor(R.color.colorEducations1));
-
+        getMarkerColor(preferenceManager.getIntPosition(Constants.KEY_EDU_POSITION));
     }
 
+    public void getMarkerColor(int position){
+        Log.d("color", String.valueOf(position));
+        if (position % 6 == 0) {
+            ic_mark.setColorFilter(getColor(R.color.colorEducations0));
+        } else if (position % 6 == 1) {
+            ic_mark.setColorFilter(getColor(R.color.colorEducations1));
+        } else if (position % 6 == 2) {
+            ic_mark.setColorFilter(getColor(R.color.colorEducations2));
+        } else if (position % 6 == 3) {
+            ic_mark.setColorFilter(getColor(R.color.colorEducations3));
+        } else if (position % 6 == 4) {
+            ic_mark.setColorFilter(getColor(R.color.colorEducations4));
+        } else if (position % 6 == 5) {
+            ic_mark.setColorFilter(getColor(R.color.colorEducations5));
+        }
+    }
 
     public void getBackButton(View view){
         onBackPressed();

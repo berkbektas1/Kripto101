@@ -1,6 +1,7 @@
 package com.example.kripto101.Adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,12 @@ import java.util.ArrayList;
 
 public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.ViewHolder> {
 
-    private Context mcontext;
+    private Context mContext;
     private ArrayList<EducationsModel> mEducationList;
     private ClickedListener clickedListener;
 
-    public EducationsAdapter(Context mcontext, ArrayList<EducationsModel> mEducationList, ClickedListener clickedListener) {
-        this.mcontext = mcontext;
+    public EducationsAdapter(Context mContext, ArrayList<EducationsModel> mEducationList, ClickedListener clickedListener) {
+        this.mContext = mContext;
         this.mEducationList = mEducationList;
         this.clickedListener = clickedListener;
     }
@@ -34,7 +35,7 @@ public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mcontext).inflate(R.layout.custom_cardview_educations, parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.custom_cardview_educations, parent,false);
         return new ViewHolder(view);
     }
 
@@ -42,7 +43,7 @@ public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         EducationsModel currentItem = mEducationList.get(position);
         holder.textTitle.setText(currentItem.getName());
-        holder.textDescription.setText(currentItem.getDescription());
+        holder.textDescription.setText(Html.fromHtml(currentItem.getDescription()));
 
         Picasso.get().load(currentItem.getImageEdu()).into(holder.imageEducation);
 
@@ -75,9 +76,7 @@ public class EducationsAdapter extends RecyclerView.Adapter<EducationsAdapter.Vi
 
             });
         }
-
     }
-
 
     private void getColor(ViewHolder holder, int position){
         System.out.println(position);

@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private TextView textSignUp, textForgot;
     private Button btnSignIn;
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
     private FirebaseAuth fAuth;
     private FirebaseUser user;
     private DatabaseReference reference;

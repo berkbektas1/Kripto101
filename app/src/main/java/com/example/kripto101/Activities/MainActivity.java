@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
     List<SliderItem> sliderItems;
     SliderAdapter sliderAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    Dialog dialog;
 
     private TextView textUserName, textTitles;
     private ImageView imageUser, imageAlert;
@@ -90,9 +91,9 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         createRecyclerView();
 
         imageAlert.setOnClickListener(view -> {
-            boolean tempD = true;
-            showCustomDialog(tempD);
-            tempD = false;
+            boolean temp = true;
+            showCustomDialog(temp);
+            temp = false;
         });
 
     }
@@ -149,10 +150,7 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
     private void createSlider() {
         sliderAdapter = new SliderAdapter(sliderItems, this);
         sliderView.setSliderAdapter(sliderAdapter);
-        sliderView.setIndicatorEnabled(true);
-        sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
-        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+        sliderView.setIndicatorAnimation(IndicatorAnimationType.NONE);
         sliderView.setScrollTimeInSec(4);
         sliderView.startAutoCycle();
     }
@@ -172,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
     }
 
     public void showCustomDialog(boolean temp) {
-        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog = new Dialog(MainActivity.this);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -186,23 +184,22 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
         TextView textExit = dialog.findViewById(R.id.textCıkıs);
 
         if (temp) {
-            textAlertDialog.setText(R.string.loremIpsum);
+            textAlertDialog.setText(R.string.loremIpsum); // i button
             textContinue.setVisibility(View.GONE);
             textExit.setVisibility(View.GONE);
         } else {
             textContinue.setVisibility(View.VISIBLE);
             textExit.setVisibility(View.VISIBLE);
-            textAlertDialog.setText(R.string.ExitString);
+            textAlertDialog.setText(R.string.ExitString); //exit
         }
-
-        textContinue.setOnClickListener(view -> dialog.dismiss());
-
-        textExit.setOnClickListener(view -> finishAffinity());
-
-        btnClose.setOnClickListener(view -> dialog.dismiss());
 
         dialog.show();
 
+        textContinue.setOnClickListener(view -> dialog.dismiss());
+        textExit.setOnClickListener(view -> finishAffinity());
+        btnClose.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
     }
 
     public void getProfileActivity(View view) {
@@ -220,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
     public void onEducationClicked(int position) {
         Intent intent = new Intent(MainActivity.this, EducationActivity.class);
         preferenceManager.putString(Constants.KEY_EDU_NAME, mEducationList.get(position).getName());
+        preferenceManager.putIntPosition(Constants.KEY_EDU_POSITION, position);
         startActivity(intent);
     }
 
@@ -227,5 +225,14 @@ public class MainActivity extends AppCompatActivity implements ClickedListener {
     public void onBackPressed() {
         //super.onBackPressed();
         showCustomDialog(false);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (dialog!=null) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+        }
     }
 }

@@ -93,7 +93,7 @@
             android:id="@+id/inputEmail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
             android:background="@drawable/background_for_input"
@@ -108,7 +108,7 @@
             app:layout_constraintTop_toBottomOf="@id/textForgot2"/>
 
         <Button
-            android:id="@+id/buttonSignIn"
+            android:id="@+id/btnReset"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginStart="42dp"
@@ -123,6 +123,16 @@
             app:layout_constraintTop_toBottomOf="@id/inputEmail"
             app:layout_constraintStart_toStartOf="@id/inputEmail"
             app:layout_constraintEnd_toEndOf="@id/inputEmail"/>
+
+        <ProgressBar
+            android:id="@+id/progressBarReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="@id/btnReset"
+            app:layout_constraintBottom_toBottomOf="@id/btnReset"
+            app:layout_constraintStart_toStartOf="@id/btnReset"
+            app:layout_constraintEnd_toEndOf="@id/btnReset"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

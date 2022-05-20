@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -72,7 +73,7 @@ public class EducationActivity extends AppCompatActivity implements EducationOnC
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     WordsModel data = dataSnapshot.getValue(WordsModel.class);
                     if (data != null){
-                        System.out.println(data.getName() + "\n"+ data.getDescription() + "\n"+ data.getImage());
+
                         mWordsList.add(new WordsModel(data.getName(), data.getAuthor(), data.getDescription(), data.getImage()));
                     }
                 }
@@ -122,7 +123,7 @@ public class EducationActivity extends AppCompatActivity implements EducationOnC
     @Override
     public void onEduWordsListener(int position) {
         Toast.makeText(this, "Position Subtitle: " + position, Toast.LENGTH_SHORT).show();
-        
+
 
         Intent intent = new Intent(EducationActivity.this, DetailActivity2.class);
         intent.putExtra("title", preferenceManager.getString(Constants.KEY_EDU_NAME));

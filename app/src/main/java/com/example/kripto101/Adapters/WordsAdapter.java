@@ -2,6 +2,7 @@ package com.example.kripto101.Adapters;
 
 import android.content.Context;
 import android.media.Image;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
         WordsModel currentItem = mWordsModelList.get(position);
 
         holder.textWords.setText(currentItem.getName());
-        holder.textDescription.setText(currentItem.getDescription());
+        holder.textDescription.setText(Html.fromHtml(currentItem.getDescription()));
         Picasso.get().load(currentItem.getImage()).into(holder.imageEdu);
 
     }
